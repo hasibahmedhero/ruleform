@@ -38,7 +38,7 @@
             <div class="flex py-5 gap-2">
               <div class="flex w-full">
                 <span class="inline-flex items-center justify-center px-3 text-sm text-gray-900 bg-gray-200 border border-r-0 border-slate-300 rounded-l" style="min-width:80px">Name</span>
-                <input v-model="rules[current].name" type="text" class="rounded-none rounded-r bg-gray-50 border border-slate-300  focus:outline-none block w-full p-2">
+                <input v-model="rules[current].name" type="text" class="rounded-none rounded-r border border-slate-300  focus:outline-none block w-full p-2">
               </div>
               <button class="border border-slate-300 focus:outline-none hover:bg-gray-200 py-1.5 px-4 rounded">Description</button>
             </div>
@@ -176,7 +176,9 @@ export default {
       this.rules.push(newInstance);
     },
     deleteRule() {
-      this.rules.splice(this.current, 1);
+      const currentIndex = this.current;
+      if (currentIndex != 0) this.current = currentIndex-1;
+      this.rules.splice(currentIndex, 1);
     }
   }
 }
