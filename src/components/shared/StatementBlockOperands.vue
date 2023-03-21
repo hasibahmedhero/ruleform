@@ -1,100 +1,100 @@
 <template>
   <div>
     <div v-if="operator == 'set to value'">
-        <input v-model="set_to_value" type="text" class="rounded border border-slate-300 focus:outline-none p-2" placeholder="value">
+        <input v-model="set_to_value" type="text" class="rounded w-240px border p-2" placeholder="value">
     </div>
 
     <div v-else-if="operator == 'append value'">
-        <input v-model="append_value" type="text" class="rounded border border-slate-300 focus:outline-none p-2" placeholder="value">
+        <input v-model="append_value" type="text" class="rounded w-240px border p-2" placeholder="value">
     </div>
 
-    <div v-else-if="operator == 'copy value'" class="flex gap-2 items-center">
-        <label class="text-lg text-gray-500 font-medium">from</label>
-        <select v-model="copy_value" class="border border-slate-300 w-44 focus:outline-none rounded p-2">
+    <div v-else-if="operator == 'copy value'" class="d-flex gap-2 align-items-center">
+        <label>from</label>
+        <select v-model="copy_value" class="border w-240px rounded p-2">
             <option v-for="(field, field_i) in project_fields" :key="field_i">{{field}}</option>
         </select>
     </div>
 
     <div v-else-if="operator == 'combine value'">
-        <input v-model="combine_value" type="text" class="rounded border border-slate-300 focus:outline-none p-2" placeholder="combine value">
+        <input v-model="combine_value" type="text" class="rounded w-240px border p-2" placeholder="combine value">
     </div>
 
     <div v-else-if="operator == 'search for value'">
-        <select v-model="search_for_value.field" class="border border-slate-300 w-44 focus:outline-none rounded p-2">
+        <select v-model="search_for_value.field" class="border w-240px rounded p-2">
             <option v-for="(field, field_i) in project_fields" :key="field_i">{{field}}</option>
         </select>
-        <div class="flex gap-4 mt-4 w-full">
-            <div class="w-full">
-                <label class="text-lg text-gray-500 font-medium">Search for value in (part of) field</label>
-                <textarea v-model="search_for_value.search" class="rounded bg-gray-50 border border-slate-300  focus:outline-none block w-full p-2 mt-2" placeholder="Enter one value per line"></textarea>
+        <div class="d-flex gap-4 mt-3 w-100">
+            <div class="w-100">
+                <label>Search for value in (part of) field</label>
+                <textarea v-model="search_for_value.search" class="rounded bg-gray-50 border block w-100 p-2 mt-2" placeholder="Enter one value per line"></textarea>
             </div>
-            <div class="w-full">
-                <label class="text-lg text-gray-500 font-medium">(Optional) use replacement value</label>
-                <textarea v-model="search_for_value.replace" class="rounded bg-gray-50 border border-slate-300  focus:outline-none block w-full p-2 mt-2" placeholder="Enter one value per line"></textarea>
+            <div class="w-100">
+                <label>(Optional) use replacement value</label>
+                <textarea v-model="search_for_value.replace" class="rounded bg-gray-50 border block w-100 p-2 mt-2" placeholder="Enter one value per line"></textarea>
             </div>
         </div>
     </div>
 
-    <div v-else-if="operator == 'replace value'" class="flex w-full gap-5 items-start flex-wrap mt-4">
-      <div class="flex gap-2 items-center">
-        <label class="text-lg text-gray-500 font-medium">search</label>
-        <input v-model="replace_value.search" type="text" class="rounded border border-slate-300 focus:outline-none p-2" placeholder="search value">
+    <div v-else-if="operator == 'replace value'" class="d-flex w-100 gap-4 align-items-start flex-wrap mt-3">
+      <div class="d-flex gap-2 align-items-center">
+        <label>search</label>
+        <input v-model="replace_value.search" type="text" class="rounded w-240px border p-2" placeholder="search value">
       </div>
-      <div class="flex gap-2 items-center">
-        <label class="text-lg text-gray-500 font-medium">replace with</label>
-        <input v-model="replace_value.replace" type="text" class="rounded border border-slate-300 focus:outline-none p-2" placeholder="replace value">
+      <div class="d-flex gap-2 align-items-center">
+        <label>replace with</label>
+        <input v-model="replace_value.replace" type="text" class="rounded w-240px border p-2" placeholder="replace value">
       </div>
     </div>
 
     <div v-else-if="operator == 'lookup and replace value'">
-        <div class="flex gap-4 mt-4 w-full">
-            <div class="w-full">
-                <label class="text-lg text-gray-500 font-medium">When field is equal to</label>
-                <textarea v-model="lookup_and_replace_value.search" class="rounded bg-gray-50 border border-slate-300  focus:outline-none block w-full p-2 mt-2" placeholder="Enter one value per line"></textarea>
+        <div class="d-flex gap-4 mt-3 w-100">
+            <div class="w-100">
+                <label>When field is equal to</label>
+                <textarea v-model="lookup_and_replace_value.search" class="rounded bg-gray-50 border block w-100 p-2 mt-2" placeholder="Enter one value per line"></textarea>
             </div>
-            <div class="w-full">
-                <label class="text-lg text-gray-500 font-medium">Then change value to</label>
-                <textarea v-model="lookup_and_replace_value.replace" class="rounded bg-gray-50 border border-slate-300  focus:outline-none block w-full p-2 mt-2" placeholder="Enter one value per line"></textarea>
+            <div class="w-100">
+                <label>Then change value to</label>
+                <textarea v-model="lookup_and_replace_value.replace" class="rounded bg-gray-50 border block w-100 p-2 mt-2" placeholder="Enter one value per line"></textarea>
             </div>
         </div>
     </div>
 
     <div v-else-if="operator == 'search and replace value'">
-        <div class="flex gap-4 mt-4 w-full">
-            <div class="w-full">
-                <label class="text-lg text-gray-500 font-medium">Search for value in (part of) field</label>
-                <textarea v-model="search_and_replace_value.search" class="rounded bg-gray-50 border border-slate-300  focus:outline-none block w-full p-2 mt-2" placeholder="Enter one value per line"></textarea>
+        <div class="d-flex gap-4 mt-3 w-100">
+            <div class="w-100">
+                <label>Search for value in (part of) field</label>
+                <textarea v-model="search_and_replace_value.search" class="rounded bg-gray-50 border block w-100 p-2 mt-2" placeholder="Enter one value per line"></textarea>
             </div>
-            <div class="w-full">
-                <label class="text-lg text-gray-500 font-medium">Use replacement value</label>
-                <textarea v-model="search_and_replace_value.replace" class="rounded bg-gray-50 border border-slate-300  focus:outline-none block w-full p-2 mt-2" placeholder="Enter one value per line"></textarea>
+            <div class="w-100">
+                <label>Use replacement value</label>
+                <textarea v-model="search_and_replace_value.replace" class="rounded bg-gray-50 border block w-100 p-2 mt-2" placeholder="Enter one value per line"></textarea>
             </div>
         </div>
     </div>
 
-    <div v-else-if="operator == 'split text'" class="flex w-full gap-5 items-start flex-wrap mt-4">
-      <div class="flex gap-2 items-center">
-        <label class="text-lg text-gray-500 font-medium">from</label>
-        <select v-model="split_text.field" class="border border-slate-300 w-44 focus:outline-none rounded p-2">
+    <div v-else-if="operator == 'split text'" class="d-flex w-100 gap-4 align-items-start flex-wrap mt-3">
+      <div class="d-flex gap-2 align-items-center">
+        <label>from</label>
+        <select v-model="split_text.field" class="border w-240px rounded p-2">
             <option v-for="(field, field_i) in project_fields" :key="field_i">{{field}}</option>
         </select>
       </div>
-      <div class="flex gap-2 items-center">
-        <label class="text-lg text-gray-500 font-medium">split on</label>
-        <input v-model="split_text.split_on" type="text" class="rounded border border-slate-300 focus:outline-none p-2" placeholder="e.g. ,">
+      <div class="d-flex gap-2 align-items-center">
+        <label>split on</label>
+        <input v-model="split_text.split_on" type="text" class="rounded w-240px border p-2" placeholder="e.g. ,">
       </div>
-      <div class="flex gap-2 items-center">
-        <label class="text-lg text-gray-500 font-medium">use</label>
-        <select v-model="split_text.use" class="border border-slate-300 w-44 focus:outline-none rounded p-2">
+      <div class="d-flex gap-2 align-items-center">
+        <label>use</label>
+        <select v-model="split_text.use" class="border w-240px rounded p-2">
           <optgroup v-for="(group, group_key) in select_options.split_text" :key="group_key" :label="group_key">
             <option v-for="(option, option_i) in group" :key="option_i">{{option}}</option>
           </optgroup>
         </select>
       </div>
 
-      <div class="flex gap-2 items-center">
-        <label class="text-lg text-gray-500 font-medium">until</label>
-        <select v-model="split_text.until" class="border border-slate-300 w-44 focus:outline-none rounded p-2">
+      <div class="d-flex gap-2 align-items-center">
+        <label>until</label>
+        <select v-model="split_text.until" class="border w-240px rounded p-2">
           <optgroup v-for="(group, group_key) in select_options.split_text" :key="group_key" :label="group_key">
             <option v-for="(option, option_i) in group" :key="option_i">{{option}}</option>
           </optgroup>
@@ -102,217 +102,217 @@
       </div>
     </div>
 
-    <div v-else-if="operator == 'maximum length'" class="flex w-full gap-5 items-start flex-wrap mt-4">
-      <div class="flex gap-2 items-center">
-        <label class="text-lg text-gray-500 font-medium">of</label>
-        <input v-model="maximum_length.of" type="text" class="rounded border border-slate-300 focus:outline-none p-2" placeholder="e.g., 60">
+    <div v-else-if="operator == 'maximum length'" class="d-flex w-100 gap-4 align-items-start flex-wrap mt-3">
+      <div class="d-flex gap-2 align-items-center">
+        <label>of</label>
+        <input v-model="maximum_length.of" type="text" class="rounded w-240px border p-2" placeholder="e.g., 60">
       </div>
-      <div class="flex gap-2 items-center">
-        <label class="text-lg text-gray-500 font-medium">characters and</label>
-        <select v-model="maximum_length.characters" class="border border-slate-300 w-44 focus:outline-none rounded p-2">
+      <div class="d-flex gap-2 align-items-center">
+        <label>characters and</label>
+        <select v-model="maximum_length.characters" class="border w-240px rounded p-2">
             <option v-for="(field, field_i) in select_options.maximum_length_characters" :key="field_i">{{field}}</option>
         </select>
       </div>
     </div>
 
-    <div v-else-if="operator == 'modify text'" class="mt-4">
-      <select v-model="modify_text" class="border border-slate-300 w-44 focus:outline-none rounded p-2">
+    <div v-else-if="operator == 'modify text'" class="mt-3">
+      <select v-model="modify_text" class="border w-240px rounded p-2">
         <option v-for="(field, field_i) in select_options.modify_text" :key="field_i">{{field}}</option>
       </select>
     </div>
 
-    <div v-else-if="operator == 'add google tracking'" class="mt-4">
-        <div class="flex mb-2">
-            <span class="inline-flex items-center justify-start px-3 text-sm text-gray-900 bg-gray-200 border border-r-0 border-slate-300 rounded-l" style="min-width:90px">Source</span>
-            <input v-model="add_google_tracking.source" type="text" class="rounded-none rounded-r border border-slate-300  focus:outline-none p-2" placeholder="e.g., example">
+    <div v-else-if="operator == 'add google tracking'" class="mt-3">
+        <div class="d-flex mb-2">
+            <span class="d-inline-flex align-items-center justify-content-start px-3 border" style="min-width:110px; background:#eee">Source</span>
+            <input v-model="add_google_tracking.source" type="text" class="border p-2" placeholder="e.g., example">
         </div>
-        <div class="flex mb-2">
-            <span class="inline-flex items-center justify-start px-3 text-sm text-gray-900 bg-gray-200 border border-r-0 border-slate-300 rounded-l" style="min-width:90px">Medium</span>
-            <input v-model="add_google_tracking.medium" type="text" class="rounded-none rounded-r border border-slate-300  focus:outline-none p-2" placeholder="e.g., cpc">
+        <div class="d-flex mb-2">
+            <span class="d-inline-flex align-items-center justify-content-start px-3 border" style="min-width:110px; background:#eee">Medium</span>
+            <input v-model="add_google_tracking.medium" type="text" class="border p-2" placeholder="e.g., cpc">
         </div>
-        <div class="flex mb-2">
-            <span class="inline-flex items-center justify-start px-3 text-sm text-gray-900 bg-gray-200 border border-r-0 border-slate-300 rounded-l" style="min-width:90px">Campaign</span>
-            <input v-model="add_google_tracking.campaign" type="text" class="rounded-none rounded-r border border-slate-300  focus:outline-none p-2" placeholder="e.g., google">
+        <div class="d-flex mb-2">
+            <span class="d-inline-flex align-items-center justify-content-start px-3 border" style="min-width:110px; background:#eee">Campaign</span>
+            <input v-model="add_google_tracking.campaign" type="text" class="border p-2" placeholder="e.g., google">
         </div>
-        <div class="flex mb-2">
-            <span class="inline-flex items-center justify-start px-3 text-sm text-gray-900 bg-gray-200 border border-r-0 border-slate-300 rounded-l" style="min-width:90px">Term</span>
-            <input v-model="add_google_tracking.term" type="text" class="rounded-none rounded-r border border-slate-300  focus:outline-none p-2" placeholder="e.g., title">
+        <div class="d-flex mb-2">
+            <span class="d-inline-flex align-items-center justify-content-start px-3 border" style="min-width:110px; background:#eee">Term</span>
+            <input v-model="add_google_tracking.term" type="text" class="border p-2" placeholder="e.g., title">
         </div>
-        <div class="flex mb-2">
-            <span class="inline-flex items-center justify-start px-3 text-sm text-gray-900 bg-gray-200 border border-r-0 border-slate-300 rounded-l" style="min-width:90px">Content</span>
-            <input v-model="add_google_tracking.content" type="text" class="rounded-none rounded-r border border-slate-300  focus:outline-none p-2" placeholder="e.g., brand">
+        <div class="d-flex mb-2">
+            <span class="d-inline-flex align-items-center justify-content-start px-3 border" style="min-width:110px; background:#eee">Content</span>
+            <input v-model="add_google_tracking.content" type="text" class="border p-2" placeholder="e.g., brand">
         </div>
     </div>
 
     <div v-else-if="operator == 'set to Google Shopping category'">
-        <input v-model="set_to_google_shopping_category" type="text" class="rounded border border-slate-300 focus:outline-none p-2" placeholder="e.g., shoes">
+        <input v-model="set_to_google_shopping_category" type="text" class="rounded w-240px border p-2" placeholder="e.g., shoes">
     </div>
 
-    <div v-else-if="operator == 'round number'" class="flex w-full gap-5 items-start flex-wrap mt-4">
-      <div class="flex gap-2 items-center">
-        <label class="text-lg text-gray-500 font-medium">calculate</label>
-        <select v-model="round_number.calculate" class="border border-slate-300 w-44 focus:outline-none rounded p-2">
+    <div v-else-if="operator == 'round number'" class="d-flex w-100 gap-4 align-items-start flex-wrap mt-3">
+      <div class="d-flex gap-2 align-items-center">
+        <label>calculate</label>
+        <select v-model="round_number.calculate" class="border w-240px rounded p-2">
             <option v-for="(field, field_i) in select_options.round_number.calculate" :key="field_i">{{field}}</option>
         </select>
       </div>
-      <div class="flex gap-2 items-center">
-        <label class="text-lg text-gray-500 font-medium">to</label>
-        <select v-model="round_number.to" class="border border-slate-300 w-44 focus:outline-none rounded p-2">
+      <div class="d-flex gap-2 align-items-center">
+        <label>to</label>
+        <select v-model="round_number.to" class="border w-240px rounded p-2">
             <option v-for="(field, field_i) in select_options.round_number.to" :key="field_i">{{field}}</option>
         </select>
       </div>
     </div>
 
-    <div v-else-if="operator == 'reformat number'" class="mt-4">
-        <div class="flex mb-2">
-            <span class="inline-flex items-center justify-start px-3 text-sm text-gray-900 bg-gray-200 border border-r-0 border-slate-300 rounded-l" style="min-width:90px">Decimal separator</span>
-            <select v-model="reformat_number.decimal_separator" class="rounded-none rounded-r border border-slate-300  focus:outline-none p-2">
+    <div v-else-if="operator == 'reformat number'" class="mt-3">
+        <div class="d-flex mb-2">
+            <span class="d-inline-flex align-items-center justify-content-start px-3 border" style="background:#eee">Decimal separator</span>
+            <select v-model="reformat_number.decimal_separator" class="border p-2">
                 <option v-for="(field, field_i) in select_options.reformat_number.decimal_separator" :key="field_i">{{field}}</option>
             </select>
         </div>
-        <div class="flex mb-2">
-            <span class="inline-flex items-center justify-start px-3 text-sm text-gray-900 bg-gray-200 border border-r-0 border-slate-300 rounded-l" style="min-width:90px">Thousands separator</span>
-            <select v-model="reformat_number.thousands_separator" class="rounded-none rounded-r border border-slate-300  focus:outline-none p-2">
+        <div class="d-flex mb-2">
+            <span class="d-inline-flex align-items-center justify-content-start px-3 border" style="background:#eee">Thousands separator</span>
+            <select v-model="reformat_number.thousands_separator" class="border p-2">
                 <option v-for="(field, field_i) in select_options.reformat_number.thousands_separator" :key="field_i">{{field}}</option>
             </select>
         </div>
-        <div class="flex mb-2">
-            <span class="inline-flex items-center justify-start px-3 text-sm text-gray-900 bg-gray-200 border border-r-0 border-slate-300 rounded-l" style="min-width:90px">Number of decimals</span>
-            <select v-model="reformat_number.number_of_decimals" class="rounded-none rounded-r border border-slate-300  focus:outline-none p-2">
+        <div class="d-flex mb-2">
+            <span class="d-inline-flex align-items-center justify-content-start px-3 border" style="background:#eee">Number of decimals</span>
+            <select v-model="reformat_number.number_of_decimals" class="border p-2">
                 <option v-for="(field, field_i) in select_options.reformat_number.number_of_decimals" :key="field_i">{{field}}</option>
             </select>
         </div>
     </div>
 
-    <div v-else-if="operator == 'calculate'" class="flex w-full gap-5 items-start flex-wrap mt-4">
-      <div class="flex gap-2 items-center">
-        <label class="text-lg text-gray-500 font-medium">take</label>
-        <select v-model="calculate.take_field" class="border border-slate-300 w-44 focus:outline-none rounded p-2">
+    <div v-else-if="operator == 'calculate'" class="d-flex w-100 gap-4 align-items-start flex-wrap mt-3">
+      <div class="d-flex gap-2 align-items-center">
+        <label>take</label>
+        <select v-model="calculate.take_field" class="border w-240px rounded p-2">
             <option v-for="(field, field_i) in project_fields" :key="field_i">{{field}}</option>
         </select>
       </div>
-      <div class="flex gap-2 items-center">
-        <label class="text-lg text-gray-500 font-medium">and</label>
-        <select v-model="calculate.operator" class="border border-slate-300 w-44 focus:outline-none rounded p-2">
+      <div class="d-flex gap-2 align-items-center">
+        <label>and</label>
+        <select v-model="calculate.operator" class="border w-240px rounded p-2">
             <option v-for="(field, field_i) in select_options.calculate.operators" :key="field_i">{{field}}</option>
         </select>
       </div>
-      <div v-if="calculate.operator.includes('field')" class="flex gap-2 items-center">
-        <label class="text-lg text-gray-500 font-medium">with</label>
-        <select v-model="calculate.by_field" class="border border-slate-300 w-44 focus:outline-none rounded p-2">
+      <div v-if="calculate.operator.includes('field')" class="d-flex gap-2 align-items-center">
+        <label>with</label>
+        <select v-model="calculate.by_field" class="border w-240px rounded p-2">
             <option v-for="(field, field_i) in project_fields" :key="field_i">{{field}}</option>
         </select>
       </div>
-      <div v-else class="flex gap-2 items-center">
-        <label class="text-lg text-gray-500 font-medium">with</label>
-        <input v-model="calculate.by" type="text" class="rounded border border-slate-300 focus:outline-none p-2" placeholder="e.g. 1.5">
+      <div v-else class="d-flex gap-2 align-items-center">
+        <label>with</label>
+        <input v-model="calculate.by" type="text" class="rounded w-240px border p-2" placeholder="e.g. 1.5">
       </div>
     </div>
 
-    <div v-else-if="operator == 'calculate sum'" class="flex w-full gap-5 items-start flex-wrap mt-4">
-      <div class="flex gap-2 items-center">
-        <label class="text-lg text-gray-500 font-medium">of field</label>
-        <select v-model="calculate_sum" class="border border-slate-300 w-44 focus:outline-none rounded p-2">
-            <option v-for="(field, field_i) in project_fields" :key="field_i">{{field}}</option>
-        </select>
-      </div>
-    </div>
-
-    <div v-else-if="operator == 'calculate length'" class="flex w-full gap-5 items-start flex-wrap mt-4">
-      <div class="flex gap-2 items-center">
-        <label class="text-lg text-gray-500 font-medium">of field</label>
-        <select v-model="calculate_length" class="border border-slate-300 w-44 focus:outline-none rounded p-2">
+    <div v-else-if="operator == 'calculate sum'" class="d-flex w-100 gap-4 align-items-start flex-wrap mt-3">
+      <div class="d-flex gap-2 align-items-center">
+        <label>of field</label>
+        <select v-model="calculate_sum" class="border w-240px rounded p-2">
             <option v-for="(field, field_i) in project_fields" :key="field_i">{{field}}</option>
         </select>
       </div>
     </div>
 
-    <div v-else-if="operator == 'calculate list length'" class="flex w-full gap-5 items-start flex-wrap mt-4">
-      <div class="flex gap-2 items-center">
-        <label class="text-lg text-gray-500 font-medium">of field</label>
-        <select v-model="calculate_list_length" class="border border-slate-300 w-44 focus:outline-none rounded p-2">
+    <div v-else-if="operator == 'calculate length'" class="d-flex w-100 gap-4 align-items-start flex-wrap mt-3">
+      <div class="d-flex gap-2 align-items-center">
+        <label>of field</label>
+        <select v-model="calculate_length" class="border w-240px rounded p-2">
             <option v-for="(field, field_i) in project_fields" :key="field_i">{{field}}</option>
         </select>
       </div>
     </div>
 
-    <div v-else-if="operator == 'group items'" class="flex w-full gap-5 items-start flex-wrap mt-4">
-      <div v-for="(item, index) in group_items" :key="index" class="flex gap-2 items-center">
-        <label v-if="index == 0" class="text-lg text-gray-500 font-medium">combine fields</label>
-        <label v-else class="text-lg text-gray-500 font-medium">and</label>
-        <select v-model="group_items[index]" class="border border-slate-300 w-44 focus:outline-none rounded p-2">
+    <div v-else-if="operator == 'calculate list length'" class="d-flex w-100 gap-4 align-items-start flex-wrap mt-3">
+      <div class="d-flex gap-2 align-items-center">
+        <label>of field</label>
+        <select v-model="calculate_list_length" class="border w-240px rounded p-2">
             <option v-for="(field, field_i) in project_fields" :key="field_i">{{field}}</option>
         </select>
       </div>
-      <div class="flex gap-1 items-center">
-        <button @click="group_items.push('')" class="bg-blue-500 hover:bg-blue-700 text-white py-1.5 px-4 rounded">Add field</button>
-        <button @click="group_items.pop()" class="border border-slate-400 focus:outline-none hover:bg-gray-200 py-1.5 px-4 rounded">delete</button>
+    </div>
+
+    <div v-else-if="operator == 'group items'" class="d-flex w-100 gap-4 align-items-start flex-wrap mt-3">
+      <div v-for="(item, index) in group_items" :key="index" class="d-flex gap-2 align-items-center">
+        <label v-if="index == 0">combine fields</label>
+        <label v-else>and</label>
+        <select v-model="group_items[index]" class="border w-240px rounded p-2">
+            <option v-for="(field, field_i) in project_fields" :key="field_i">{{field}}</option>
+        </select>
+      </div>
+      <div class="d-flex gap-1 align-items-center">
+        <b-button @click="group_items.push('')" variant="success">Add field</b-button>
+        <b-button @click="group_items.pop()">delete</b-button>
       </div>
     </div>
 
-    <div v-else-if="operator == 'split items'" class="flex w-full gap-5 items-start flex-wrap mt-4"></div>
+    <div v-else-if="operator == 'split items'" class="d-flex w-100 gap-4 align-items-start flex-wrap mt-3"></div>
 
-    <div v-else-if="operator == 'deduplicate items'" class="flex w-full gap-5 items-start flex-wrap mt-4">
-      <div class="flex gap-2 items-center">
-        <select v-model="deduplicate_items.operator" class="border border-slate-300 w-44 focus:outline-none rounded p-2">
+    <div v-else-if="operator == 'deduplicate items'" class="d-flex w-100 gap-4 align-items-start flex-wrap mt-3">
+      <div class="d-flex gap-2 align-items-center">
+        <select v-model="deduplicate_items.operator" class="border w-240px rounded p-2">
             <option v-for="(field, field_i) in select_options.deduplicate_items.operators" :key="field_i">{{field}}</option>
         </select>
       </div>
-      <div v-if="deduplicate_items.operator && deduplicate_items.operator != 'exclude duplicates'" class="flex gap-2 items-center">
-        <label class="text-lg text-gray-500 font-medium">of field</label>
-        <select v-model="deduplicate_items.by_field" class="border border-slate-300 w-44 focus:outline-none rounded p-2">
+      <div v-if="deduplicate_items.operator && deduplicate_items.operator != 'exclude duplicates'" class="d-flex gap-2 align-items-center">
+        <label>of field</label>
+        <select v-model="deduplicate_items.by_field" class="border w-240px rounded p-2">
             <option v-for="(field, field_i) in project_fields" :key="field_i">{{field}}</option>
         </select>
       </div>
     </div>
 
-    <div v-else-if="operator == 'calculate item group'" class="flex w-full gap-5 items-start flex-wrap mt-4">
-      <div class="flex gap-2 items-center">
-        <select v-model="calculate_item_group.operator" class="border border-slate-300 w-44 focus:outline-none rounded p-2">
+    <div v-else-if="operator == 'calculate item group'" class="d-flex w-100 gap-4 align-items-start flex-wrap mt-3">
+      <div class="d-flex gap-2 align-items-center">
+        <select v-model="calculate_item_group.operator" class="border w-240px rounded p-2">
             <option v-for="(field, field_i) in select_options.calculate_item_group.operators" :key="field_i">{{field}}</option>
         </select>
       </div>
-      <div v-if="calculate_item_group.operator && calculate_item_group.operator != 'count items'" class="flex gap-2 items-center">
-        <label class="text-lg text-gray-500 font-medium">of</label>
-        <select v-model="calculate_item_group.of_field" class="border border-slate-300 w-44 focus:outline-none rounded p-2">
+      <div v-if="calculate_item_group.operator && calculate_item_group.operator != 'count items'" class="d-flex gap-2 align-items-center">
+        <label>of</label>
+        <select v-model="calculate_item_group.of_field" class="border w-240px rounded p-2">
             <option v-for="(field, field_i) in project_fields" :key="field_i">{{field}}</option>
         </select>
       </div>
-      <div class="flex gap-2 items-center">
-        <label class="text-lg text-gray-500 font-medium">store in</label>
-        <select v-model="calculate_item_group.store_in_field" class="border border-slate-300 w-44 focus:outline-none rounded p-2">
+      <div class="d-flex gap-2 align-items-center">
+        <label>store in</label>
+        <select v-model="calculate_item_group.store_in_field" class="border w-240px rounded p-2">
             <option v-for="(field, field_i) in project_fields" :key="field_i">{{field}}</option>
         </select>
       </div>
     </div>
 
-    <div v-else-if="operator == 'sort list'" class="flex w-full gap-5 items-start flex-wrap mt-4">
-      <div class="flex gap-2 items-center">
-        <label class="text-lg text-gray-500 font-medium">order</label>
-        <select v-model="sort_list" class="border border-slate-300 w-44 focus:outline-none rounded p-2">
+    <div v-else-if="operator == 'sort list'" class="d-flex w-100 gap-4 align-items-start flex-wrap mt-3">
+      <div class="d-flex gap-2 align-items-center">
+        <label>order</label>
+        <select v-model="sort_list" class="border w-240px rounded p-2">
             <option v-for="(field, field_i) in select_options.sort_list" :key="field_i">{{field}}</option>
         </select>
       </div>
     </div>
 
-    <div v-else-if="operator == 'slice list'" class="flex w-full gap-5 items-start flex-wrap mt-4">
-      <div class="flex gap-2 items-center">
-        <label class="text-lg text-gray-500 font-medium">from</label>
-        <select v-model="slice_list.field" class="border border-slate-300 w-44 focus:outline-none rounded p-2">
+    <div v-else-if="operator == 'slice list'" class="d-flex w-100 gap-4 align-items-start flex-wrap mt-3">
+      <div class="d-flex gap-2 align-items-center">
+        <label>from</label>
+        <select v-model="slice_list.field" class="border w-240px rounded p-2">
             <option v-for="(field, field_i) in project_fields" :key="field_i">{{field}}</option>
         </select>
       </div>
-      <div class="flex gap-2 items-center">
-        <label class="text-lg text-gray-500 font-medium">use</label>
-        <select v-model="slice_list.use" class="border border-slate-300 w-44 focus:outline-none rounded p-2">
+      <div class="d-flex gap-2 align-items-center">
+        <label>use</label>
+        <select v-model="slice_list.use" class="border w-240px rounded p-2">
           <optgroup v-for="(group, group_key) in select_options.split_text" :key="group_key" :label="group_key">
             <option v-for="(option, option_i) in group" :key="option_i">{{option}}</option>
           </optgroup>
         </select>
       </div>
-      <div class="flex gap-2 items-center">
-        <label class="text-lg text-gray-500 font-medium">until</label>
-        <select v-model="slice_list.until" class="border border-slate-300 w-44 focus:outline-none rounded p-2">
+      <div class="d-flex gap-2 align-items-center">
+        <label>until</label>
+        <select v-model="slice_list.until" class="border w-240px rounded p-2">
           <optgroup v-for="(group, group_key) in select_options.split_text" :key="group_key" :label="group_key">
             <option v-for="(option, option_i) in group" :key="option_i">{{option}}</option>
           </optgroup>
@@ -320,21 +320,21 @@
       </div>
     </div>
 
-    <div v-else-if="operator == 'split text to list'" class="flex w-full gap-5 items-start flex-wrap mt-4">
-      <div class="flex gap-2 items-center">
-        <label class="text-lg text-gray-500 font-medium">split on</label>
-        <input v-model="split_text_to_list" type="text" class="rounded border border-slate-300 focus:outline-none p-2" placeholder="e.g.,">
+    <div v-else-if="operator == 'split text to list'" class="d-flex w-100 gap-4 align-items-start flex-wrap mt-3">
+      <div class="d-flex gap-2 align-items-center">
+        <label>split on</label>
+        <input v-model="split_text_to_list" type="text" class="rounded w-240px border p-2" placeholder="e.g.,">
       </div>
     </div>
 
-    <div v-else-if="operator == 'join list to text'" class="flex w-full gap-5 items-start flex-wrap mt-4">
-      <div class="flex gap-2 items-center">
-        <label class="text-lg text-gray-500 font-medium">split on</label>
-        <input v-model="join_list_to_text" type="text" class="rounded border border-slate-300 focus:outline-none p-2" placeholder="e.g.,">
+    <div v-else-if="operator == 'join list to text'" class="d-flex w-100 gap-4 align-items-start flex-wrap mt-3">
+      <div class="d-flex gap-2 align-items-center">
+        <label>split on</label>
+        <input v-model="join_list_to_text" type="text" class="rounded w-240px border p-2" placeholder="e.g.,">
       </div>
     </div>
 
-    <div v-else-if="operator == 'deduplicate list'" class="flex w-full gap-5 items-start flex-wrap mt-4"></div>
+    <div v-else-if="operator == 'deduplicate list'" class="d-flex w-100 gap-4 align-items-start flex-wrap mt-3"></div>
 
   </div>
 </template>

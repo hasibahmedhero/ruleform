@@ -1,23 +1,23 @@
 <template>
-    <div class="flex w-full gap-5 items-start flex-wrap">
-      <div class="flex gap-2 items-center">
-        <label class="text-lg text-gray-500 font-medium">take</label>
-        <select v-model="value.field" class="border border-slate-300 w-44 focus:outline-none rounded p-2">
+    <div class="d-flex w-100 gap-4 align-items-start flex-wrap">
+      <div class="d-flex gap-2 align-items-center">
+        <label>take</label>
+        <select v-model="value.field" class="border w-240px rounded p-2">
             <option>all</option>
             <option v-for="(field, field_i) in project_fields" :key="field_i">{{field}}</option>
         </select>
       </div>
 
-      <div v-if="value.field != 'all'" class="flex gap-2 items-center">
-        <label class="text-lg text-gray-500 font-medium">and</label>
-        <select v-model="value.operator" class="border border-slate-300 focus:outline-none rounded p-2">
+      <div v-if="value.field != 'all'" class="d-flex gap-2 align-items-center">
+        <label>and</label>
+        <select v-model="value.operator" class="border w-240px rounded p-2">
             <optgroup v-for="(group, group_key) in operators" :key="group_key" :label="group_key">
             <option v-for="(option, option_i) in group" :key="option_i">{{option}}</option>
             </optgroup>
         </select>
       </div>
 
-      <div v-if="value.field != 'all'" class="w-full">
+      <div v-if="value.field != 'all'" class="w-100">
         <StatementBlockOperands @setOperand="onSetOperand" :operator="value.operator" :project_fields="project_fields" :operators="operators" />
       </div>
     </div>

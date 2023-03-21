@@ -1,18 +1,22 @@
 <template>
   <div id="app">
-    <Rules />
+    <RulesForm />
   </div>
 </template>
 
 <script>
-import Rules from './components/Rules.vue'
+import RulesForm from './components/RulesForm.vue'
 
 export default {
   name: 'App',
   components: {
-    Rules
+    RulesForm
   }
 }
 </script>
 
-<style src="./assets/tailwind.css">
+<style>
+  label{font-weight:bold; color:#888}
+  .input-group-prepend .input-group-text{border-radius:6px 0 0 6px}
+  .w-240px{width:240px;}
+</style>
