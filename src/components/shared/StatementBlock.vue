@@ -1,5 +1,5 @@
 <template>
-    <div class="d-flex w-100 gap-4 align-items-start flex-wrap">
+    <div class="d-flex w-100 gap-4 align-items-start flex-wrap block-inputs">
       <div class="d-flex gap-2 align-items-center">
         <label>take</label>
         <select v-model="value.field" class="border w-240px rounded p-2">
@@ -33,9 +33,9 @@
       is_operand_dynamic_field: false,
     }),
     methods: {
-        onSetOperand(new_value) {
-            this.value.operand = new_value;
-        }
+      onSetOperand(new_value) {
+        this.value.operand = new_value;
+      }
     }
   }
 </script>
