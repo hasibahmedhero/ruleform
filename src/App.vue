@@ -16,6 +16,10 @@ export default {
 </script>
 
 <style>
+.rule-list > div {
+  padding:12px 15px;
+}
+
 .rule_action_dropdown button {
   border-radius: 0;
 }

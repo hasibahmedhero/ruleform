@@ -10,16 +10,18 @@
         <div class="border">
           <div class="d-flex" style="min-height:600px">
             <div class="w-25" style="border-right:1px solid #dee2e6">
-              <b-list-group class="rounded-0">
-                <b-list-group-item
-                    v-for="(item, index) in rules"
-                    :key="index"
-                    @click="current = index"
-                    class="border-0 border-bottom"
-                    style="font-weight:500; cursor:pointer"
-                    :style="{background: current == index ? '#eee' : 'transparent', color: item.is_paused ? '#888' : '#42B1E1'}"
-                >{{item.name}}</b-list-group-item>
-              </b-list-group>
+              <draggable v-model="rules" class="rule-list">
+                <div
+                  v-for="(item, index) in rules"
+                  :key="index"
+                  @click="current = index"
+                  class="border-0 border-bottom"
+                  style="font-weight:500; cursor:pointer"
+                  :style="{background: current == index ? '#eee' : 'transparent', color: item.is_paused ? '#888' : '#42B1E1'}"
+                >
+                  <span>{{item.name}}</span>
+                </div>
+              </draggable>
               <div class="d-flex gap-2 p-2">
                 <b-button squared @click="add_new_rule.dialog = true" variant="outline-dark">
                   <b-icon icon="plus-lg"></b-icon>
@@ -138,7 +140,7 @@
             <b-button @click="add_new_rule.dialog = false" class="px-4">Close</b-button>
         </template>
       </b-modal>
-  
+
     </div>
   </template>
   
@@ -146,11 +148,21 @@
   import ConditionBlock from "./shared/ConditionBlock";
   import StatementBlock from "./shared/StatementBlock";
   import ActionBlock from "./shared/ActionBlock";
+  import draggable from 'vuedraggable';
   export default {
-    components: {ConditionBlock, StatementBlock, ActionBlock},
+    components: {ConditionBlock, StatementBlock, ActionBlock, draggable},
     name: 'RulesForm',
     data: () => ({
-      rules: [],
+      rules: [{
+          name:'test',
+          is_paused: false,
+          rule: {
+            conditions_type: 'and',
+            conditions: [{type:'and', rows:[{field:'all', operator:'contains', operand:''}]}],
+            then: [{field:'all', operator:'set to value', operand:null}],
+            else:[],
+          }
+        }],
       current: 0,
       add_new_rule: {
         dialog: false,

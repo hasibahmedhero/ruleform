@@ -16,7 +16,16 @@
     </div>
 
     <div v-else-if="operator == 'combine value'">
-        <input v-model="combine_value" type="text" class="rounded w-240px border p-2" placeholder="combine value">
+        <div style="display:flex; flex-wrap:wrap; column-gap:10px; row-gap:10px;">
+          <input v-model="combine_value.text" type="text" class="rounded w-240px border p-2" placeholder="combine value">
+          <div v-for="(item, index) in combine_value.fields" :key="index" class="d-flex">
+            <select v-model="combine_value.fields[index]" class="border w-240px rounded p-2">
+              <option v-for="(field, field_i) in project_fields" :key="field_i">{{field}}</option>
+            </select>
+            <span @click="combine_value.fields.splice(index, 1)" style="margin:8px 0 0 2px; cursor:pointer;">&#10006;</span>
+          </div>
+          <b-button @click="combine_value.fields.push('')" variant="success">Add field</b-button>
+        </div>
     </div>
 
     <div v-else-if="operator == 'search for value'">
@@ -347,7 +356,10 @@ export default {
         set_to_value: '',
         append_value: '',
         copy_value: '',
-        combine_value: '',
+        combine_value: {
+          text:'',
+          fields: []
+        },
         search_for_value: {
             field: '',
             search: '',
