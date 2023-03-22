@@ -153,16 +153,7 @@
     components: {ConditionBlock, StatementBlock, ActionBlock, draggable},
     name: 'RulesForm',
     data: () => ({
-      rules: [{
-          name:'test',
-          is_paused: false,
-          rule: {
-            conditions_type: 'and',
-            conditions: [{type:'and', rows:[{field:'all', operator:'contains', operand:''}]}],
-            then: [{field:'all', operator:'set to value', operand:null}],
-            else:[],
-          }
-        }],
+      rules: [],
       current: 0,
       add_new_rule: {
         dialog: false,
