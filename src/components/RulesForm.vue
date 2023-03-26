@@ -14,7 +14,7 @@
                 <div
                   v-for="(item, index) in rules"
                   :key="index"
-                  @click="current = index"
+                  @click="changeRule(index)"
                   class="border-0 border-bottom"
                   style="font-weight:500; cursor:pointer"
                   :style="{background: current == index ? '#eee' : 'transparent', color: item.is_paused ? '#888' : '#42B1E1'}"
@@ -22,7 +22,7 @@
                   <span>{{item.name}}</span>
                 </div>
               </draggable>
-              <div class="d-flex gap-2 p-2">
+              <div v-if="current >= 0" class="d-flex gap-2 p-2">
                 <b-button squared @click="add_new_rule.dialog = true" variant="outline-dark">
                   <b-icon icon="plus-lg"></b-icon>
                 </b-button>
@@ -41,7 +41,7 @@
               </div>
             </div>
   
-            <div class="w-75 px-4" style="background:#F5F5F5">
+            <div v-if="current >= 0" class="w-75 px-4" style="background:#F5F5F5">
               <div class="d-flex py-3 gap-2 mb-4 rule-name">
                 <b-input-group prepend="Name">
                     <b-form-input v-model="rules[current].name"></b-form-input>
@@ -116,7 +116,7 @@
                           <div class="p-4 d-flex w-100 align-items-start justify-content-between gap-2" style="padding-left:70px !important;">
                             <span class="remove-row" @click="rules[current].rule.else.splice(statement_i, 1)">&#9866;</span>
 
-                            <StatementBlock v-model="rules[current].rule.else[statement_i]"  :project_fields="project_fields" :operators="statement_block_operators"/>
+                            <StatementBlock :key="statement_i" v-model="rules[current].rule.else[statement_i]"  :project_fields="project_fields" :operators="statement_block_operators"/>
                           </div>
                         </div>
                       </div>
@@ -199,11 +199,17 @@
       },
       deleteRule() {
         const currentIndex = this.current;
-        if (currentIndex != 0) this.current = currentIndex-1;
+        if (currentIndex != 0) this.changeRule(currentIndex-1);
         this.rules.splice(currentIndex, 1);
       },
       exportRules() {
-        console.log(this.rules);
+        console.log(JSON.parse(JSON.stringify(this.rules)));
+      },
+      changeRule(newIndex) {
+        this.current = -1;
+        setTimeout(() => {
+          this.current = newIndex;
+        }, 100);
       }
     }
   }

@@ -41,6 +41,11 @@
     data: () => ({
       is_operand_dynamic_field: false,
     }),
+    watch: {
+      is_operand_dynamic_field(newValue) {
+        this.value.operand = newValue ? 'aff_code' : '';
+      }
+    },
     methods: {
       
     }

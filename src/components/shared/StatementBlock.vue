@@ -18,7 +18,7 @@
       </div>
 
       <div v-if="value.field != 'all'" class="w-100">
-        <StatementBlockOperands @setOperand="onSetOperand" :operator="value.operator" :project_fields="project_fields" :operators="operators" />
+        <StatementBlockOperands @setOperand="onSetOperand" :initialValue="value.operand" :operator="value.operator" :project_fields="project_fields" :operators="operators" />
       </div>
     </div>
 </template>

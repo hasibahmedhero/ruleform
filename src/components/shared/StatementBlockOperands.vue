@@ -254,7 +254,7 @@
         </select>
       </div>
       <div class="d-flex gap-1 align-items-center">
-        <b-button @click="group_items.push('')" variant="success">Add field</b-button>
+        <b-button @click="group_items.push('aff_code')" variant="success">Add field</b-button>
         <b-button @click="group_items.pop()">delete</b-button>
       </div>
     </div>
@@ -351,17 +351,17 @@
 <script>
 export default {
     name: 'StatementBlockOperands',
-    props: ['operator', 'project_fields', 'operators'],
+    props: ['initialValue', 'operator', 'project_fields', 'operators'],
     data: () => ({
         set_to_value: '',
         append_value: '',
-        copy_value: '',
+        copy_value: 'aff_code',
         combine_value: {
           text:'',
           fields: []
         },
         search_for_value: {
-            field: '',
+            field: 'aff_code',
             search: '',
             replace: ''
         },
@@ -378,16 +378,16 @@ export default {
             replace: ''
         },
         split_text: {
-            field: '',
+            field: 'aff_code',
             split_on: '',
-            use: '',
-            until: ''
+            use: 'first',
+            until: 'last'
         },
         maximum_length: {
             of: '',
-            characters: '',
+            characters: 'trim on words',
         },
-        modify_text: '',
+        modify_text: 'capitalize only first character',
         add_google_tracking: {
             source: '',
             medium: '',
@@ -397,39 +397,39 @@ export default {
         },
         set_to_google_shopping_category: '',
         round_number: {
-            calculate: '',
-            to: '',
+            calculate: 'closest',
+            to: '1 cent',
         },
         reformat_number: {
-            decimal_separator: '',
-            thousands_separator: '',
-            number_of_decimals: '',
+            decimal_separator: '.',
+            thousands_separator: '.',
+            number_of_decimals: '2 decimals',
         },
         calculate: {
-            take_field: '',
-            operator: '',
+            take_field: 'aff_code',
+            operator: 'multiply by',
             by: '',
-            by_field: '',
+            by_field: 'aff_code',
         },
-        calculate_sum: '',
-        calculate_length: '',
-        calculate_list_length: '',
-        group_items: [''],
+        calculate_sum: 'aff_code',
+        calculate_length: 'aff_code',
+        calculate_list_length: 'aff_code',
+        group_items: ['aff_code'],
         split_items: null,
         deduplicate_items: {
-            operator: '',
-            by_field: '',
+            operator: 'exclude duplicates',
+            by_field: 'aff_code',
         },
         calculate_item_group: {
-            operator: '',
-            of_field: '',
-            store_in_field: '',
+            operator: 'count items',
+            of_field: 'aff_code',
+            store_in_field: 'aff_code',
         },
-        sort_list: '',
+        sort_list: 'descending',
         slice_list: {
-            field: '',
-            use: '',
-            until: '',
+            field: 'aff_code',
+            use: 'first',
+            until: 'last',
         },
         split_text_to_list: '',
         join_list_to_text: '',
@@ -553,8 +553,37 @@ export default {
             this.$emit('setOperand', newValue);
         },
     },
-    methods: {
-        
+    mounted() {
+      if (this.initialValue) {
+        if (this.operator == 'set to value') this.set_to_value = this.initialValue;
+        else if (this.operator == 'append value') this.append_value = this.initialValue;
+        else if (this.operator == 'copy value') this.copy_value = this.initialValue;
+        else if (this.operator == 'combine value') this.combine_value = this.initialValue;
+        else if (this.operator == 'search for value') this.search_for_value = this.initialValue;
+        else if (this.operator == 'replace value') this.replace_value = this.initialValue;
+        else if (this.operator == 'lookup and replace value') this.lookup_and_replace_value = this.initialValue;
+        else if (this.operator == 'search and replace value') this.search_and_replace_value = this.initialValue;
+        else if (this.operator == 'split text') this.split_text = this.initialValue;
+        else if (this.operator == 'maximum length') this.maximum_length = this.initialValue;
+        else if (this.operator == 'modify text') this.modify_text = this.initialValue;
+        else if (this.operator == 'add google tracking') this.add_google_tracking = this.initialValue;
+        else if (this.operator == 'set to google shopping category') this.set_to_google_shopping_category = this.initialValue;
+        else if (this.operator == 'round number') this.round_number = this.initialValue;
+        else if (this.operator == 'reformat number') this.reformat_number = this.initialValue;
+        else if (this.operator == 'calculate') this.calculate = this.initialValue;
+        else if (this.operator == 'calculate sum') this.calculate_sum = this.initialValue;
+        else if (this.operator == 'calculate length') this.calculate_length = this.initialValue;
+        else if (this.operator == 'calculate list length') this.calculate_list_length = this.initialValue;
+        else if (this.operator == 'group items') this.group_items = this.initialValue;
+        else if (this.operator == 'split items') this.split_items = this.initialValue;
+        else if (this.operator == 'deduplicate items') this.deduplicate_items = this.initialValue;
+        else if (this.operator == 'calculate item group') this.calculate_item_group = this.initialValue;
+        else if (this.operator == 'sort list') this.sort_list = this.initialValue;
+        else if (this.operator == 'slice list') this.slice_list = this.initialValue;
+        else if (this.operator == 'split text to list') this.split_text_to_list = this.initialValue;
+        else if (this.operator == 'join list to text') this.join_list_to_text = this.initialValue;
+        else if (this.operator == 'deduplicate list') this.deduplicate_list = this.initialValue;
+      }
     }
 }
 </script>
